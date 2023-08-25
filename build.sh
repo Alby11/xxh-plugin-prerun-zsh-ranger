@@ -24,7 +24,7 @@ build() {
 
   rm -rf $build_dir
   mkdir -p $build_dir
-  ls -la
+  pwd
   for f in $CDIR/*pluginrc.*
   do
       cp $CDIR/$f $build_dir/
