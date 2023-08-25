@@ -1,55 +1,69 @@
 #!/usr/bin/env bash
 
-CDIR="$(cd "$(dirname "$0")" && pwd)"
-build_dir=$CDIR/build
+main() {
+  #############
+  # <Example>
+	need_cmd curl
+	need_cmd grep
+	need_cmd cut
+	need_cmd xargs
+	need_cmd chmod
+  # </Example>
+  #############
+	build
+}
 
-while getopts A:K:q option
-do
-  case "${option}"
-  in
-    q) QUIET=1;;
-    A) ARCH=${OPTARG};;
-    K) KERNEL=${OPTARG};;
-  esac
-done
+build() {
+  local plugin_name="xxh-plugin-prerun-zsh-ranger"
+  # CDIR="$(cd "$(dirname "$0")" && pwd)"
+  local plugin_dir="${XXH_HOME}/.xxh/plugins/"
+  local CDIR="$plugin_dir/$plugin_name"
+  local build_dir=$CDIR/build
 
-rm -rf $build_dir
-mkdir -p $build_dir
+  while getopts A:K:q option
+  do
+    case "${option}"
+    in
+      q) QUIET=1;;
+      A) ARCH=${OPTARG};;
+      K) KERNEL=${OPTARG};;
+    esac
+  done
 
-for f in pluginrc.zsh
-do
-    cp $CDIR/$f $build_dir/
-done
+  # rm -rf $build_dir
+  rm -rf $CDIR
+  mkdir -p $build_dir
 
-portable_url='https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep-13.0.0-x86_64-unknown-linux-musl.tar.gz'
-extra_url='https://github.com/eth-p/bat-extras/releases/download/v2021.08.21/bat-extras-20210821.zip'
-tarname=`basename $portable_url`
-zipname=`basename $extra_url`
-foldername='ripgrep-13.0.0-x86_64-unknown-linux-musl'
-zipfolder='bat-extras'
+  # cd $CDIR
+  # cp *prerun.sh *pluginrc.* $build_dir/
 
-cd $build_dir
-mkdir -p $zipfolder
+  for f in *pluginrc.*
+  do
+      cp $CDIR/$f $build_dir/
+  done
+  for f in *prerun.sh
+  do
+      cp $CDIR/$f $build_dir/
+  done
 
-[ $QUIET ] && arg_q='-q' || arg_q=''
-[ $QUIET ] && arg_s='-s' || arg_s=''
-[ $QUIET ] && arg_progress='' || arg_progress='--show-progress'
+  # cd $build_dir
 
-if [ -x "$(command -v wget)" ]; then
- wget $arg_q $arg_progress $portable_url -O $tarname
- wget $arg_q $arg_progress $extra_url -O $zipname
-elif [ -x "$(command -v curl)" ]; then
- curl $arg_s -L $portable_url -o $tarname
- curl $arg_s -L $extra_url -o $zipname
-else
- echo Install wget or curl
-fi
+  # Install ranger on the remote host
+  if [ ! -d $CDIR ]; then
+    git clone --depth 1 https://github.com/ranger/ranger.git $plugin_dir
+  fi
+}
 
-tar -xzf $tarname
-mv $foldername ripgrep
-rm $tarname
+cmd_chk() {
+  >&2 echo Check "$1"
+	command -v "$1" >/dev/null 2>&1
+}
 
-mv $zipname $zipfolder
-cd $zipfolder
-unzip $zipname
-rm $zipname
+need_cmd() {
+  if ! cmd_chk "$1"; then
+    error "need $1 (command not found)"
+    exit 1
+  fi
+}
+
+main "$@" || exit 1
