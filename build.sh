@@ -31,13 +31,13 @@ build() {
   mkdir -p $build_dir
 
   cd $CDIR
-  cp *prerun.sh *pluginrc.* $build_dir/
+  # cp *prerun.sh *pluginrc.* $build_dir/
   cp *prerun.sh  $build_dir/
 
   cd $build_dir
 
   # Install ranger on the remote host
-  if [ ! -d "${XXH_HOME}/.xxh/plugins/xxh-plugin-prerun-ranger/build/ranger" ]; then
+  if [ ! -d "${XXH_HOME}/.xxh/plugins/xxh-plugin-prerun-zsh-ranger/build/ranger" ]; then
     git clone --depth 1 https://github.com/ranger/ranger.git ${XXH_HOME}/.xxh/plugins/xxh-plugin-prerun-ranger/build/ranger
   fi
 }
