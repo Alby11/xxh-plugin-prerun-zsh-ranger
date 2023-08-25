@@ -14,9 +14,10 @@ main() {
 }
 
 build() {
+  local CDIR="$(cd "$(dirname "$0")" && pwd)"
+  echo "CDIR IS:" $CDIR
   local plugin_name="xxh-plugin-prerun-zsh-ranger"
   local xxh_plugins_dir="$HOME/.xxh/.xxh/plugins"
-  set
   local plugin_dir="$xxh_plugins_dir/$plugin_name"
   local build_dir=$plugin_dir/build
   # echo "BUILD DIR IS:" $build_dir
