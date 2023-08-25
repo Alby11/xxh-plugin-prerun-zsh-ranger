@@ -32,6 +32,7 @@ build() {
 
   cd $CDIR
   cp *prerun.sh *pluginrc.* $build_dir/
+  cp *prerun.sh  $build_dir/
 
   cd $build_dir
 
