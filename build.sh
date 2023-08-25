@@ -34,7 +34,7 @@ build() {
   rm -rfv $plugin_dir
   # Install ranger on the remote host
   if [ ! -d $plugin_dir ]; then
-    git clone --depth 1 https://github.com/ranger/ranger.git $xxh_plugins_dir
+    git clone --depth 1 https://github.com/ranger/ranger.git $plugin_dir
   fi
   # mkdir -p $build_dir
 
