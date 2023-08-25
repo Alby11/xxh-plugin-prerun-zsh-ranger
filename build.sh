@@ -16,43 +16,41 @@ main() {
 build() {
   local CDIR="$(cd "$(dirname "$0")" && pwd)"
   echo "CDIR IS:" $CDIR
-  local plugin_name="xxh-plugin-prerun-zsh-ranger"
-  local xxh_plugins_dir="$HOME/.xxh/.xxh/plugins"
-  local plugin_dir="$xxh_plugins_dir/$plugin_name"
-  local build_dir=$plugin_dir/build
-  # echo "BUILD DIR IS:" $build_dir
+  # local plugin_name="xxh-plugin-prerun-zsh-ranger"
+  # local xxh_plugins_dir="$HOME/.xxh/.xxh/plugins"
+  # local plugin_dir="$xxh_plugins_dir/$plugin_name"
+  local build_dir=$CDIR/build
+  echo "BUILD DIR IS:" $build_dir
 
-  while getopts A:K:q option
+  rm -rf $build_dir
+  mkdir -p $build_dir
+
+  for f in *pluginrc.*
   do
-    case "${option}"
-    in
-      q) QUIET=1;;
-      A) ARCH=${OPTARG};;
-      K) KERNEL=${OPTARG};;
-    esac
+      cp $plugin_dir/$f $build_dir/
   done
+  for f in *prerun.sh
+  do
+      cp $plugin_dir/$f $build_dir/
+  done
+  
+  cd $build_dir
 
-  # rm -rf $build_dir
-  rm -rfv $plugin_dir
+
+  # while getopts A:K:q option
+  # do
+  #   case "${option}"
+  #   in
+  #     q) QUIET=1;;
+  #     A) ARCH=${OPTARG};;
+  #     K) KERNEL=${OPTARG};;
+  #   esac
+  # done
+
   # Install ranger on the remote host
-  if [ ! -d $plugin_dir ]; then
-    git clone --depth 1 https://github.com/ranger/ranger.git $plugin_dir
+  if [ ! -d $build_dir/ranger ]; then
+    git clone --depth 1 https://github.com/ranger/ranger.git $build_dir/ranger
   fi
-  # mkdir -p $build_dir
-
-  # cd $plugin_dir
-  # cp *prerun.sh *pluginrc.* $build_dir/
-
-  # for f in *pluginrc.*
-  # do
-  #     cp $plugin_dir/$f $build_dir/
-  # done
-  # for f in *prerun.sh
-  # do
-  #     cp $plugin_dir/$f $build_dir/
-  # done
-
-  # cd $build_dir
 
 }
 
