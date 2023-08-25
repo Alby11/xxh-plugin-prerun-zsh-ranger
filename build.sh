@@ -17,7 +17,7 @@ build() {
   local plugin_name="xxh-plugin-prerun-zsh-ranger"
   # plugin_dir="$(cd "$(dirname "$0")" && pwd)"
   # echo "XXH_HOME is:" $XXH_HOME
-  local xxh_plugins_dir="$HOME/.xxh/plugins/"
+  local xxh_plugins_dir="$HOME/.xxh/.xxh/plugins"
   local plugin_dir="$xxh_plugins_dir/$plugin_name"
   local build_dir=$plugin_dir/build
   echo "BUILD DIR IS:" $build_dir
