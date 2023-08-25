@@ -16,5 +16,5 @@ CURR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 export PATH=$CURR_DIR/ranger:$PATH
 # export BAT_THEME="GitHub"
-# alias cat='bat --paging=never'
+alias ranger="python3 $CURR_DIR/ranger.py"
 # fpath=($CURR_DIR/bat/autocomplete $fpath)
