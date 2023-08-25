@@ -19,6 +19,7 @@ build() {
   local xxh_plugins_dir="${XXH_HOME}/.xxh/plugins/"
   local plugin_dir="$xxh_plugins_dir/$plugin_name"
   local build_dir=$plugin_dir/build
+  echo $build_dir
 
   while getopts A:K:q option
   do
@@ -31,7 +32,7 @@ build() {
   done
 
   # rm -rf $build_dir
-  rm -rf $plugin_dir
+  rm -rfv $plugin_dir
   # Install ranger on the remote host
   if [ ! -d $plugin_dir ]; then
     git clone --depth 1 https://github.com/ranger/ranger.git $xxh_plugins_dir
