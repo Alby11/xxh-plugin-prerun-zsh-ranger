@@ -27,11 +27,11 @@ build() {
   pwd
   for f in $CDIR/*pluginrc.*
   do
-      cp $CDIR/$f $build_dir/
+      cp $f $build_dir/
   done
   for f in $CDIR/*prerun.sh
   do
-      cp $CDIR/$f $build_dir/
+      cp $f $build_dir/
   done
   
   cd $build_dir
